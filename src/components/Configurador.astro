@@ -99,7 +99,7 @@
         </div>
 
         <!-- SVG visualização 2D — leve, instantâneo -->
-        <svg class="galpao-svg" id="galpaoSvg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+        <svg class="galpao-svg" id="galpaoSvg" viewBox="50 80 800 420" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
 
         <div class="cfg-viz-tips mono">
           <span><span class="y">►</span> MEDIDAS EM TEMPO REAL</span>
@@ -209,11 +209,22 @@
     function renderSvg() {
       const svg = document.getElementById('galpaoSvg');
       if (!svg) return;
-      const w = state.comp * 6;
-      const h = state.pe * 8;
-      const d = state.larg * 4;
+      let w = state.comp * 6;
+      let h = state.pe * 8;
+      let d = state.larg * 4;
       const cx = 450, cy = 280;
-      const svgNS = 'http://www.w3.org/2000/svg';
+
+      // Auto-fit no viewBox "50 80 800 420" — galpão não é centralizado em cx
+      // (isométrica desloca pra direita em d*0.7; telhado sobe h/2 + 40 + d*0.3)
+      const padX = 60, padY = 60;
+      const scale = Math.min(
+        1,
+        (850 - padX - cx) / (w/2 + d * 0.7),   // borda direita (cx=450 → 340)
+        (cx - 50 - padX) / (w/2),               // borda esquerda
+        (cy - 80 - padY) / (h/2 + 40 + d * 0.3),// borda superior (telhado)
+        (500 - padY - cy) / (h/2 + 40)          // borda inferior (linha de cota)
+      );
+      w *= scale; h *= scale; d *= scale;
 
       // Isométrica simples
       const pts = {
@@ -225,8 +236,8 @@
         backBR:  [cx + w/2 + d*0.7, cy + h/2 - d*0.3],
         backTL:  [cx - w/2 + d*0.7, cy - h/2 - d*0.3],
         backTR:  [cx + w/2 + d*0.7, cy - h/2 - d*0.3],
-        roofFront: [cx, cy - h/2 - 40],
-        roofBack:  [cx + d*0.7, cy - h/2 - 40 - d*0.3]
+        roofFront: [cx, cy - h/2 - 40 * scale],
+        roofBack:  [cx + d*0.7, cy - h/2 - 40 * scale - d*0.3]
       };
       svg.innerHTML = `
         <defs>
@@ -365,10 +376,12 @@
       if (threeLoaded) return;
 
       try {
-        // Carrega Three.js via bare imports (resolvidos pelo importmap do Base.astro)
-        // /* @vite-ignore */ garante que Vite não tente resolver no build
-        const THREE = await import(/* @vite-ignore */ 'three');
-        const OrbitModule = await import(/* @vite-ignore */ 'three/addons/controls/OrbitControls.js');
+        // Carrega Three.js via importmap do Base.astro (CDN jsdelivr).
+        // Function constructor burla a análise estática do Vite/Rollup —
+        // sem isso o Vite tenta resolver 'three' em dev e retorna 500.
+        const dynImport = new Function('s', 'return import(s)');
+        const THREE = await dynImport('three');
+        const OrbitModule = await dynImport('three/addons/controls/OrbitControls.js');
         threeLoaded = true;
         initThreeScene(THREE, OrbitModule.OrbitControls);
       } catch (err) {
@@ -686,8 +699,9 @@ input[type="range"]::-moz-range-thumb {
 .cfg-viz {
   position: relative;
   background: #0a0a0a;
-  min-height: 420px;
-  padding: 20px;
+  aspect-ratio: 16/11;
+  min-height: 280px;
+  padding: 50px 20px;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
@@ -716,8 +730,8 @@ input[type="range"]::-moz-range-thumb {
 }
 .galpao-svg {
   width: 100%;
-  max-width: 700px;
-  height: auto;
+  height: 100%;
+  max-height: 100%;
   filter: drop-shadow(0 0 30px rgba(255,215,0,0.1));
 }
 .cfg-viz-tips {
