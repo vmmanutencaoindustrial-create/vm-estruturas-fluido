@@ -2,16 +2,17 @@
 // Seção "Galpão sendo construído" — fases com scroll-pin (CSS puro, sem GSAP)
 const base = import.meta.env.BASE_URL;
 const phases = [
-  { num: '01', total: '07', tag: 'TERRENO NIVELADO', title: 'Terreno', desc: 'Sondagem SPT, terraplanagem, nivelamento com topografia.', img: 'galpao-fase-01.jpg' },
-  { num: '02', total: '07', tag: 'FUNDAÇÃO EM ANDAMENTO', title: 'Fundação Pronta', desc: 'Sapatas isoladas em concreto armado, chumbadores ancorados.', img: 'galpao-fase-02.jpg' },
-  { num: '03', total: '07', tag: 'PILARES IÇADOS', title: 'Estrutura Vertical', desc: 'Pilares metálicos içados e prumados. Grautes protegidos.', img: 'galpao-fase-03.jpg' },
-  { num: '04', total: '07', tag: 'VIGAS E TESOURAS', title: 'Cobertura em Montagem', desc: 'Tesouras treliçadas Pratt soldadas MIG/MAG, vigas secundárias.', img: 'galpao-fase-04.jpg' },
-  { num: '05', total: '07', tag: 'COBERTURA INSTALADA', title: 'Telhado Fechado', desc: 'Telha TP40 sanduíche com PU. Captação pluvial dimensionada.', img: 'galpao-fase-05.jpg' },
-  { num: '06', total: '07', tag: 'LATERAIS FECHADAS', title: 'Vedações Laterais', desc: 'Fechamento lateral em telha trapezoidal. Portões industriais.', img: 'galpao-fase-06.jpg' },
-  { num: '07', total: '07', tag: 'ENTREGUE EM OPERAÇÃO', title: 'Galpão Operando', desc: 'Piso polido, iluminação LED, documentação as-built entregue.', img: 'galpao-fase-07.jpg' }
+  { num: '01', total: '07', tag: 'TERRENO NIVELADO', title: 'Terreno', desc: 'Sondagem SPT, terraplanagem, nivelamento com topografia.', img: 'galpao-fase-01.webp' },
+  { num: '02', total: '07', tag: 'FUNDAÇÃO EM ANDAMENTO', title: 'Fundação Pronta', desc: 'Sapatas isoladas em concreto armado, chumbadores ancorados.', img: 'galpao-fase-02.webp' },
+  { num: '03', total: '07', tag: 'PILARES IÇADOS', title: 'Estrutura Vertical', desc: 'Pilares metálicos içados e prumados. Grautes protegidos.', img: 'galpao-fase-03.webp' },
+  { num: '04', total: '07', tag: 'VIGAS E TESOURAS', title: 'Cobertura em Montagem', desc: 'Tesouras treliçadas Pratt soldadas MIG/MAG, vigas secundárias.', img: 'galpao-fase-04.webp' },
+  { num: '05', total: '07', tag: 'COBERTURA INSTALADA', title: 'Telhado Fechado', desc: 'Telha TP40 sanduíche com PU. Captação pluvial dimensionada.', img: 'galpao-fase-05.webp' },
+  { num: '06', total: '07', tag: 'LATERAIS FECHADAS', title: 'Vedações Laterais', desc: 'Fechamento lateral em telha trapezoidal. Portões industriais.', img: 'galpao-fase-06.webp' },
+  { num: '07', total: '07', tag: 'ENTREGUE EM OPERAÇÃO', title: 'Galpão Operando', desc: 'Piso polido, iluminação LED, documentação as-built entregue.', img: 'galpao-fase-07.webp' }
 ];
 ---
 <section class="build-wrap" id="build" aria-label="Galpão sendo construído fase por fase">
+  <h2 class="sr-only">Galpão sendo construído — 7 fases de obra</h2>
   <div class="build-pin">
     <!-- Stage: imagens empilhadas, controladas por scroll-progress -->
     <!-- Pré-carrega as 3 primeiras fases imediatamente; resto via IntersectionObserver -->
