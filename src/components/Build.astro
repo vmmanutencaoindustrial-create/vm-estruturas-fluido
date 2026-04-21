@@ -14,11 +14,21 @@ const phases = [
 <section class="build-wrap" id="build" aria-label="Galpão sendo construído fase por fase">
   <div class="build-pin">
     <!-- Stage: imagens empilhadas, controladas por scroll-progress -->
+    <!-- Pré-carrega as 3 primeiras fases imediatamente; resto via IntersectionObserver -->
     <div class="stage">
       {phases.map((p, i) => (
-        <div class={`phase-img phase-${i}`} data-phase={i} data-src={`${base}/assets/${p.img}`}></div>
+        <div
+          class={`phase-img phase-${i} ${i === 0 ? 'active loaded' : ''}`}
+          data-phase={i}
+          data-src={`${base}/assets/${p.img}`}
+          style={i < 3 ? `background-image: url("${base}/assets/${p.img}")` : undefined}
+        ></div>
       ))}
     </div>
+    <!-- Fallback visível enquanto scroll não calculou nada -->
+    <noscript>
+      <div class="phase-img noscript" style={`background-image: url("${base}/assets/${phases[0].img}"); opacity:1;`}></div>
+    </noscript>
 
     <!-- HUD topo -->
     <div class="hud-top mono">
@@ -57,7 +67,7 @@ const phases = [
     const phaseTagEl = wrap.querySelector('.phase-tag') as HTMLElement | null;
     const total = imgs.length;
 
-    // 1. Lazy-load das imagens só quando entrar na viewport
+    // 1. Lazy-load das imagens (3 primeiras já vêm com background inline pelo Astro)
     const imgObserver = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
@@ -68,8 +78,19 @@ const phases = [
           el.classList.add('loaded');
         }
       });
-    }, { rootMargin: '200px' });
+    }, { rootMargin: '500px' });
     imgs.forEach(img => imgObserver.observe(img));
+
+    // Helper: força carregamento de uma fase específica se ainda não tem background
+    function ensureLoaded(idx: number) {
+      const img = imgs[idx] as HTMLElement | undefined;
+      if (!img) return;
+      const src = img.dataset.src;
+      if (src && !img.style.backgroundImage) {
+        img.style.backgroundImage = `url("${src}")`;
+        img.classList.add('loaded');
+      }
+    }
 
     // 2. Scroll progress — calcula qual fase está ativa
     let ticking = false;
@@ -82,6 +103,11 @@ const phases = [
 
       // Calcula índice da fase (0 a total-1)
       const phaseIdx = Math.min(total - 1, Math.floor(progress * total));
+
+      // Garante que a fase atual E as adjacentes estão carregadas (anti-preto)
+      ensureLoaded(phaseIdx);
+      ensureLoaded(phaseIdx + 1);
+      ensureLoaded(phaseIdx - 1);
 
       // Ativa fase atual (esconde outras)
       imgs.forEach((img, i) => {
