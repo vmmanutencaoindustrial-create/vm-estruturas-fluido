@@ -93,6 +93,23 @@ import '../styles/global.css';
     "sameAs": ["https://www.instagram.com/vmmanutencaoindustrial"]
   })} />
 
+  <!-- Kill-switch: desregistra qualquer Service Worker antigo que possa interferir -->
+  <script is:inline>
+    (function () {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { r.unregister(); });
+        }).catch(function () {});
+      }
+      // Limpa caches antigos do browser (Cache API)
+      if ('caches' in window) {
+        caches.keys().then(function (keys) {
+          keys.forEach(function (k) { caches.delete(k); });
+        }).catch(function () {});
+      }
+    })();
+  </script>
+
   <!-- Scroll progress var (atualiza --progress no <html>) -->
   <script is:inline>
     (function () {
