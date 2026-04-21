@@ -21,13 +21,13 @@ const phases = [
           class={`phase-img phase-${i} ${i === 0 ? 'active loaded' : ''}`}
           data-phase={i}
           data-src={`${base}/assets/${p.img}`}
-          style={i < 3 ? `background-image: url("${base}/assets/${p.img}")` : undefined}
+          style={i < 3 ? `background-image: url(${base}/assets/${p.img})` : undefined}
         ></div>
       ))}
     </div>
     <!-- Fallback visível enquanto scroll não calculou nada -->
     <noscript>
-      <div class="phase-img noscript" style={`background-image: url("${base}/assets/${phases[0].img}"); opacity:1;`}></div>
+      <div class="phase-img noscript" style={`background-image: url(${base}/assets/${phases[0].img}); opacity:1;`}></div>
     </noscript>
 
     <!-- HUD topo -->
@@ -74,7 +74,7 @@ const phases = [
         const el = e.target as HTMLElement;
         const src = el.dataset.src;
         if (src && !el.style.backgroundImage) {
-          el.style.backgroundImage = `url("${src}")`;
+          el.style.backgroundImage = `url('${src}')`;
           el.classList.add('loaded');
         }
       });
