@@ -1,0 +1,242 @@
+---
+// Seção "Galpão sendo construído" — fases com scroll-pin (CSS puro, sem GSAP)
+const base = import.meta.env.BASE_URL;
+const phases = [
+  { num: '01', total: '07', tag: 'TERRENO NIVELADO', title: 'Terreno', desc: 'Sondagem SPT, terraplanagem, nivelamento com topografia.', img: 'galpao-fase-01.jpg' },
+  { num: '02', total: '07', tag: 'FUNDAÇÃO EM ANDAMENTO', title: 'Fundação Pronta', desc: 'Sapatas isoladas em concreto armado, chumbadores ancorados.', img: 'galpao-fase-02.jpg' },
+  { num: '03', total: '07', tag: 'PILARES IÇADOS', title: 'Estrutura Vertical', desc: 'Pilares metálicos içados e prumados. Grautes protegidos.', img: 'galpao-fase-03.jpg' },
+  { num: '04', total: '07', tag: 'VIGAS E TESOURAS', title: 'Cobertura em Montagem', desc: 'Tesouras treliçadas Pratt soldadas MIG/MAG, vigas secundárias.', img: 'galpao-fase-04.jpg' },
+  { num: '05', total: '07', tag: 'COBERTURA INSTALADA', title: 'Telhado Fechado', desc: 'Telha TP40 sanduíche com PU. Captação pluvial dimensionada.', img: 'galpao-fase-05.jpg' },
+  { num: '06', total: '07', tag: 'LATERAIS FECHADAS', title: 'Vedações Laterais', desc: 'Fechamento lateral em telha trapezoidal. Portões industriais.', img: 'galpao-fase-06.jpg' },
+  { num: '07', total: '07', tag: 'ENTREGUE EM OPERAÇÃO', title: 'Galpão Operando', desc: 'Piso polido, iluminação LED, documentação as-built entregue.', img: 'galpao-fase-07.jpg' }
+];
+---
+<section class="build-wrap" id="build" aria-label="Galpão sendo construído fase por fase">
+  <div class="build-pin">
+    <!-- Stage: imagens empilhadas, controladas por scroll-progress -->
+    <div class="stage">
+      {phases.map((p, i) => (
+        <div class={`phase-img phase-${i}`} data-phase={i} data-src={`${base}/assets/${p.img}`}></div>
+      ))}
+    </div>
+
+    <!-- HUD topo -->
+    <div class="hud-top mono">
+      <span>► <span class="y">FASE </span><span class="phase-num">01</span><span class="y">/07</span></span>
+      <span class="phase-tag">■ TERRENO NIVELADO</span>
+    </div>
+
+    <!-- Plaque lateral (info da fase ativa) -->
+    <div class="plaque">
+      {phases.map((p, i) => (
+        <div class={`step ${i === 0 ? 'active' : ''}`} data-step={i}>
+          <span class="sp-tag mono">■ {p.tag}</span>
+          <h3 class="bebas sp-title">{p.title}</h3>
+          <p class="mono sp-desc">{p.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Indicador de scroll -->
+    <div class="scroll-hint mono" aria-hidden="true">
+      <span>► ROLE PRA VER O GALPÃO SUBIR</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Build scroll controller — SEM GSAP, só IntersectionObserver + scroll listener leve
+  (function () {
+    const wrap = document.getElementById('build');
+    if (!wrap) return;
+
+    const pin = wrap.querySelector('.build-pin') as HTMLElement;
+    const imgs = wrap.querySelectorAll<HTMLElement>('.phase-img');
+    const steps = wrap.querySelectorAll<HTMLElement>('.plaque .step');
+    const phaseNumEl = wrap.querySelector('.phase-num') as HTMLElement | null;
+    const phaseTagEl = wrap.querySelector('.phase-tag') as HTMLElement | null;
+    const total = imgs.length;
+
+    // 1. Lazy-load das imagens só quando entrar na viewport
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        const src = el.dataset.src;
+        if (src && !el.style.backgroundImage) {
+          el.style.backgroundImage = `url("${src}")`;
+          el.classList.add('loaded');
+        }
+      });
+    }, { rootMargin: '200px' });
+    imgs.forEach(img => imgObserver.observe(img));
+
+    // 2. Scroll progress — calcula qual fase está ativa
+    let ticking = false;
+    function update() {
+      const rect = wrap.getBoundingClientRect();
+      const viewportH = window.innerHeight;
+      const scrolled = -rect.top;
+      const totalScroll = rect.height - viewportH;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+      // Calcula índice da fase (0 a total-1)
+      const phaseIdx = Math.min(total - 1, Math.floor(progress * total));
+
+      // Ativa fase atual (esconde outras)
+      imgs.forEach((img, i) => {
+        img.classList.toggle('active', i === phaseIdx);
+      });
+      steps.forEach((s, i) => {
+        s.classList.toggle('active', i === phaseIdx);
+      });
+      if (phaseNumEl) phaseNumEl.textContent = String(phaseIdx + 1).padStart(2, '0');
+      const phases = [
+        'TERRENO NIVELADO', 'FUNDAÇÃO EM ANDAMENTO', 'PILARES IÇADOS',
+        'VIGAS E TESOURAS', 'COBERTURA INSTALADA', 'LATERAIS FECHADAS', 'ENTREGUE EM OPERAÇÃO'
+      ];
+      if (phaseTagEl) phaseTagEl.textContent = '■ ' + phases[phaseIdx];
+
+      ticking = false;
+    }
+
+    // Só escuta scroll quando a seção está visível (perf)
+    let inView = false;
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+    }, { rootMargin: '100px' });
+    visibilityObserver.observe(wrap);
+
+    window.addEventListener('scroll', () => {
+      if (!inView) return;
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // update inicial
+    update();
+  })();
+</script>
+
+<style>
+.build-wrap {
+  position: relative;
+  height: 400vh; /* 4 viewports de altura pra 7 fases terem tempo */
+  background: #000;
+  /* Não usar contain: paint aqui — quebra sticky */
+}
+.build-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stage {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,10,0.4), rgba(10,10,10,0.85));
+}
+.phase-img {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  will-change: opacity;
+}
+.phase-img.active { opacity: 1; }
+.phase-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.7) 100%),
+    linear-gradient(90deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0) 40%);
+  pointer-events: none;
+}
+
+.hud-top {
+  position: absolute;
+  top: 24px; left: 24px; right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,215,0,0.3);
+  z-index: 6;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+}
+.hud-top .y { color: var(--yellow); }
+.phase-tag { color: var(--yellow); font-weight: 700; }
+
+.plaque {
+  position: absolute;
+  left: 24px; bottom: 40px;
+  max-width: 380px;
+  background: rgba(10,10,10,0.85);
+  border: 2px solid var(--yellow);
+  border-left: 8px solid var(--yellow);
+  padding: 22px 26px;
+  z-index: 7;
+  display: grid;
+  backdrop-filter: blur(6px);
+}
+.plaque .step {
+  grid-area: 1/1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.plaque .step.active { opacity: 1; }
+.sp-tag {
+  display: inline-block;
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+  color: var(--yellow);
+  margin-bottom: 12px;
+}
+.sp-title {
+  font-size: 2.2rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.sp-desc {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: rgba(250,250,250,0.8);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 20px; right: 24px;
+  font-size: 0.64rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,215,0,0.7);
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 8;
+}
+@keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+
+@media (max-width: 760px) {
+  .build-wrap { height: 380vh; }
+  .hud-top { top: 16px; left: 16px; right: 16px; font-size: 0.58rem; gap: 8px; flex-wrap: wrap; }
+  .plaque { left: 14px; right: 14px; bottom: 14px; max-width: none; padding: 16px 18px; }
+  .sp-title { font-size: 1.6rem; }
+  .sp-desc { font-size: 0.76rem; }
+  .scroll-hint { display: none; }
+}
+
+/* Mobile fraco (prefers-reduced-motion): desativa sticky */
+@media (prefers-reduced-motion: reduce) {
+  .build-wrap { height: auto !important; }
+  .build-pin { position: relative !important; height: auto !important; min-height: 100vh; }
+}
+</style>

@@ -1,0 +1,868 @@
+---
+// Configurador de galpão — sliders + preview 2D SVG (instantâneo) + 3D lazy on-demand
+---
+<section id="configurador" class="cfg-section" aria-label="Configurador de galpão">
+  <div class="cfg-head container">
+    <div>
+      <div class="tag mono">[05] CONFIGURADOR · MONTE SEU PROJETO</div>
+      <h2 class="bebas">Monte seu<br>projeto agora.</h2>
+    </div>
+    <p class="mono">Ajuste metragem, pé-direito, cobertura e opcionais. Veja a estrutura sendo desenhada em tempo real e envie a configuração direto pro nosso engenheiro. <b class="y">Do mezanino de 50m² ao galpão de 5.000m²</b> — pequenas, médias e grandes estruturas.</p>
+  </div>
+
+  <div class="cfg-shortcut container mono">
+    <span class="cs-label">Não quer montar agora?</span>
+    <a class="cs-btn" href="https://wa.me/5511972328541?text=Ol%C3%A1!%20Cheguei%20pelo%20site%20da%20VM%20Estruturas%20Met%C3%A1licas%20e%20quero%20saber%20mais%20sobre%20os%20servi%C3%A7os.%20Pode%20me%20orientar%3F" target="_blank" rel="noopener">
+      ► QUERO SABER MAIS SOBRE ESTRUTURAS METÁLICAS
+    </a>
+  </div>
+
+  <div class="cfg-main">
+    <aside class="cfg-controls">
+      <h3 class="bebas cfg-ctitle">Controles</h3>
+      <p class="cfg-csub mono">AJUSTE, VEJA, SOLICITE</p>
+
+      <!-- Tipo de projeto -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>TIPO DE PROJETO</span></div>
+        <div class="seg" id="segProjeto">
+          <button class="on" data-val="galpao" type="button">Galpão completo</button>
+          <button data-val="cobertura" type="button">Cobertura</button>
+          <button data-val="mezanino" type="button">Mezanino</button>
+          <button data-val="marquise" type="button">Marquise</button>
+        </div>
+      </div>
+
+      <!-- Comprimento -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>COMPRIMENTO</span><span class="val bebas" id="valComp">40 m</span></div>
+        <input type="range" id="comp" min="10" max="100" step="5" value="40" aria-label="Comprimento em metros">
+      </div>
+
+      <!-- Largura -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>LARGURA</span><span class="val bebas" id="valLarg">20 m</span></div>
+        <input type="range" id="larg" min="6" max="50" step="2" value="20" aria-label="Largura em metros">
+      </div>
+
+      <!-- Pé-direito -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>PÉ-DIREITO</span></div>
+        <div class="seg seg-small" id="segPe">
+          <button data-val="4" type="button">4 m</button>
+          <button data-val="6" type="button">6 m</button>
+          <button class="on" data-val="8" type="button">8 m</button>
+          <button data-val="10" type="button">10 m</button>
+          <button data-val="12" type="button">12 m</button>
+        </div>
+      </div>
+
+      <!-- Cobertura -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>COBERTURA</span></div>
+        <div class="seg seg-two" id="segCob">
+          <button class="on" data-val="tp40" type="button">TP40 sanduíche</button>
+          <button data-val="tp25" type="button">Trapezoidal simples</button>
+          <button data-val="zipada" type="button">Zíper standing seam</button>
+          <button data-val="transl" type="button">Policarbonato</button>
+        </div>
+      </div>
+
+      <!-- Opcionais -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>⬥ ESTRUTURA ADICIONAL</span></div>
+        <div class="toggles" id="toggles">
+          <label class="toggle"><input type="checkbox" data-ex="mezanino"><span class="check"></span><span class="toggle-name">Mezanino Steel Deck</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="doca"><span class="check"></span><span class="toggle-name">Doca de carga</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="escrit"><span class="check"></span><span class="toggle-name">Escritório anexo</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="ponte"><span class="check"></span><span class="toggle-name">Ponte rolante (até 20t)</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="cabine"><span class="check"></span><span class="toggle-name">Cabine primária</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="fotovolt"><span class="check"></span><span class="toggle-name">Usina solar fotovoltaica</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="sprinkler"><span class="check"></span><span class="toggle-name">Sprinklers combate incêndio</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+          <label class="toggle"><input type="checkbox" data-ex="piso"><span class="check"></span><span class="toggle-name">Piso polido epóxi industrial</span><span class="toggle-price mono">◉ OPCIONAL</span></label>
+        </div>
+      </div>
+
+      <!-- CEP -->
+      <div class="ctrl-group">
+        <div class="ctrl-label mono"><span>CIDADE / CEP</span></div>
+        <input id="cep" type="text" placeholder="Ex: Barueri / 06451-000" autocomplete="postal-code" />
+      </div>
+    </aside>
+
+    <!-- Preview -->
+    <div class="cfg-viz-wrap">
+      <div class="cfg-viz">
+        <div class="cfg-viz-meta mono">
+          <span><span class="y">■ PREVIEW AO VIVO</span></span>
+          <span id="vizSize">40 × 20 × 8 m</span>
+        </div>
+
+        <!-- SVG visualização 2D — leve, instantâneo -->
+        <svg class="galpao-svg" id="galpaoSvg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+        <div class="cfg-viz-tips mono">
+          <span><span class="y">►</span> MEDIDAS EM TEMPO REAL</span>
+          <button id="btn3d" class="btn3d" type="button">⬢ VER EM 3D</button>
+        </div>
+      </div>
+
+      <!-- Output/Resultado -->
+      <div class="cfg-output">
+        <div class="out-block">
+          <div class="k mono">ÁREA CONSTRUÍDA</div>
+          <div class="v bebas" id="outArea">800 m²</div>
+          <div class="sub mono" id="outAreaSub">40 × 20 m</div>
+        </div>
+        <div class="out-block">
+          <div class="k mono">PESO DE AÇO</div>
+          <div class="v bebas" id="outAco">32 t</div>
+          <div class="sub mono">40 kg/m²</div>
+        </div>
+        <div class="out-block">
+          <div class="k mono">PRAZO</div>
+          <div class="v bebas" id="outPrazo">90 dias</div>
+          <div class="sub mono">projeto + fabricação + montagem</div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="cta-row">
+          <a class="btn-cfg fill" href="#" id="btnEnviarProjeto">► ENVIAR PROJETO PELO WHATSAPP</a>
+          <a class="btn-cfg line" href="#" id="btnSave">⎘ SALVAR LINK</a>
+        </div>
+
+        <p class="cfg-disclaimer mono">
+          ■ <b class="y">Orçamento sob medida:</b> Cada projeto é único — logística, fundação, acesso e escopo definem o investimento. Nosso engenheiro analisa sua configuração e envia <b>proposta técnica completa em até 24h úteis</b>. Fazemos <b>do mezanino de 50m² ao galpão de 5.000m²</b>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal 3D (lazy — Three.js só carrega ao clicar em "Ver em 3D") -->
+<div class="maquete-modal" id="maqueteModal" aria-hidden="true">
+  <div class="maquete-topbar mono">
+    <span><span class="y">⬢</span> MAQUETE 3D · VISUALIZAÇÃO INTERATIVA</span>
+    <span id="maqueteSpec">40 × 20 × 8 m · 800 m²</span>
+    <button class="close mono" id="maqueteClose" type="button">✕ FECHAR</button>
+  </div>
+  <div class="maquete-canvas-wrap">
+    <canvas id="maqueteCanvas"></canvas>
+    <div class="maquete-loading mono" id="maqueteLoading">► CARREGANDO MAQUETE 3D...</div>
+  </div>
+</div>
+
+<script>
+  // Configurador — lógica pura sem GSAP, visualização 2D via SVG inline
+  (function () {
+    const state = {
+      projeto: 'galpao',
+      comp: 40,
+      larg: 20,
+      pe: 8,
+      cob: 'tp40',
+      extras: {
+        mezanino: false, doca: false, escrit: false, ponte: false,
+        cabine: false, fotovolt: false, sprinkler: false, piso: false
+      },
+      cep: ''
+    };
+
+    const COB_LABEL: Record<string, string> = {
+      tp25: 'Trapezoidal simples',
+      tp40: 'TP40 sanduíche c/ PU',
+      transl: 'Policarbonato translúcida',
+      zipada: 'Zíper standing seam'
+    };
+
+    function calc() {
+      const area = state.comp * state.larg;
+      const mult = { galpao: 1, cobertura: 0.6, mezanino: 0.8, marquise: 0.5 }[state.projeto] || 1;
+      const peso = Math.round(area * 40 * mult / 1000 * 10) / 10;
+      let prazo = 120;
+      if (area < 400) prazo = 60;
+      else if (area < 1000) prazo = 90;
+      else if (area < 2500) prazo = 120;
+      else prazo = 150;
+      return { area, peso, prazo };
+    }
+
+    function update() {
+      const r = calc();
+      const set = (id: string, v: string) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = v;
+      };
+      set('valComp', state.comp + ' m');
+      set('valLarg', state.larg + ' m');
+      set('vizSize', `${state.comp} × ${state.larg} × ${state.pe} m`);
+      set('outArea', r.area.toLocaleString('pt-BR') + ' m²');
+      set('outAreaSub', `${state.comp} × ${state.larg} m`);
+      set('outAco', r.peso + ' t');
+      set('outPrazo', r.prazo + ' dias');
+      const ms = document.getElementById('maqueteSpec');
+      if (ms) ms.textContent = `${state.comp} × ${state.larg} × ${state.pe} m · ${r.area} m²`;
+      renderSvg();
+    }
+
+    // Renderiza galpão em SVG 2D (leve, instantâneo)
+    function renderSvg() {
+      const svg = document.getElementById('galpaoSvg');
+      if (!svg) return;
+      const w = state.comp * 6;
+      const h = state.pe * 8;
+      const d = state.larg * 4;
+      const cx = 450, cy = 280;
+      const svgNS = 'http://www.w3.org/2000/svg';
+
+      // Isométrica simples
+      const pts = {
+        frontBL: [cx - w/2, cy + h/2],
+        frontBR: [cx + w/2, cy + h/2],
+        frontTL: [cx - w/2, cy - h/2],
+        frontTR: [cx + w/2, cy - h/2],
+        backBL:  [cx - w/2 + d*0.7, cy + h/2 - d*0.3],
+        backBR:  [cx + w/2 + d*0.7, cy + h/2 - d*0.3],
+        backTL:  [cx - w/2 + d*0.7, cy - h/2 - d*0.3],
+        backTR:  [cx + w/2 + d*0.7, cy - h/2 - d*0.3],
+        roofFront: [cx, cy - h/2 - 40],
+        roofBack:  [cx + d*0.7, cy - h/2 - 40 - d*0.3]
+      };
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a4a4a"/>
+            <stop offset="1" stop-color="#2a2a2a"/>
+          </linearGradient>
+          <linearGradient id="side" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#3a3a3a"/>
+            <stop offset="1" stop-color="#1a1a1a"/>
+          </linearGradient>
+        </defs>
+        <!-- Chão -->
+        <polygon points="${pts.frontBL[0]},${pts.frontBL[1]} ${pts.frontBR[0]},${pts.frontBR[1]} ${pts.backBR[0]},${pts.backBR[1]} ${pts.backBL[0]},${pts.backBL[1]}" fill="#1a1a1a" stroke="#FFD700" stroke-width="1" opacity="0.4"/>
+        <!-- Parede lateral -->
+        <polygon points="${pts.frontBR[0]},${pts.frontBR[1]} ${pts.frontTR[0]},${pts.frontTR[1]} ${pts.backTR[0]},${pts.backTR[1]} ${pts.backBR[0]},${pts.backBR[1]}" fill="url(#side)" stroke="#FFD700" stroke-width="1.5"/>
+        <!-- Parede frontal -->
+        <polygon points="${pts.frontBL[0]},${pts.frontBL[1]} ${pts.frontBR[0]},${pts.frontBR[1]} ${pts.frontTR[0]},${pts.frontTR[1]} ${pts.frontTL[0]},${pts.frontTL[1]}" fill="url(#wall)" stroke="#FFD700" stroke-width="2"/>
+        <!-- Telhado -->
+        <polygon points="${pts.frontTL[0]},${pts.frontTL[1]} ${pts.frontTR[0]},${pts.frontTR[1]} ${pts.roofFront[0] + 30},${pts.roofFront[1]} ${pts.roofFront[0] - 30},${pts.roofFront[1]}" fill="#2a2a2a" stroke="#FFD700" stroke-width="2"/>
+        <polygon points="${pts.frontTR[0]},${pts.frontTR[1]} ${pts.backTR[0]},${pts.backTR[1]} ${pts.roofBack[0]},${pts.roofBack[1]} ${pts.roofFront[0] + 30},${pts.roofFront[1]}" fill="#3a3a3a" stroke="#FFD700" stroke-width="1.5"/>
+        <!-- Portão -->
+        <rect x="${cx - 20}" y="${cy + h/2 - 60}" width="40" height="60" fill="#FFD700" opacity="0.8" stroke="#FFD700" stroke-width="1.5"/>
+        <!-- Faixa de medida -->
+        <line x1="${pts.frontBL[0]}" y1="${pts.frontBL[1] + 20}" x2="${pts.frontBR[0]}" y2="${pts.frontBR[1] + 20}" stroke="#FFD700" stroke-width="1.5"/>
+        <text x="${cx}" y="${pts.frontBL[1] + 40}" text-anchor="middle" fill="#FFD700" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700">${state.comp} m</text>
+        <line x1="${pts.frontTR[0] + 25}" y1="${pts.frontTR[1]}" x2="${pts.frontBR[0] + 25}" y2="${pts.frontBR[1]}" stroke="#FFD700" stroke-width="1.5"/>
+        <text x="${pts.frontBR[0] + 35}" y="${cy + 5}" fill="#FFD700" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700">${state.pe} m</text>
+      `;
+    }
+
+    // Listeners
+    document.querySelectorAll<HTMLButtonElement>('#segProjeto button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#segProjeto button').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        state.projeto = b.dataset.val!;
+        update();
+      });
+    });
+    document.querySelectorAll<HTMLButtonElement>('#segPe button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#segPe button').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        state.pe = +b.dataset.val!;
+        update();
+      });
+    });
+    document.querySelectorAll<HTMLButtonElement>('#segCob button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#segCob button').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        state.cob = b.dataset.val!;
+        update();
+      });
+    });
+    const compInput = document.getElementById('comp') as HTMLInputElement;
+    const largInput = document.getElementById('larg') as HTMLInputElement;
+    const cepInput = document.getElementById('cep') as HTMLInputElement;
+    compInput?.addEventListener('input', e => { state.comp = +(e.target as HTMLInputElement).value; update(); });
+    largInput?.addEventListener('input', e => { state.larg = +(e.target as HTMLInputElement).value; update(); });
+    cepInput?.addEventListener('input', e => { state.cep = (e.target as HTMLInputElement).value; });
+    document.querySelectorAll<HTMLInputElement>('#toggles input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const key = inp.dataset.ex!;
+        (state.extras as any)[key] = inp.checked;
+      });
+    });
+
+    // Monta resumo + WhatsApp
+    function buildSummary() {
+      const r = calc();
+      const tipoLabel: Record<string, string> = {
+        galpao: 'Galpão completo', cobertura: 'Cobertura metálica',
+        mezanino: 'Mezanino', marquise: 'Marquise'
+      };
+      const cobLabel = COB_LABEL[state.cob] || state.cob;
+      const extrasAtivos = Object.entries(state.extras).filter(([k,v]) => v).map(([k]) => k);
+      const extrasLabel: Record<string, string> = {
+        mezanino: 'Mezanino Steel Deck', doca: 'Doca de carga',
+        escrit: 'Escritório anexo', ponte: 'Ponte rolante',
+        cabine: 'Cabine primária', fotovolt: 'Usina solar',
+        sprinkler: 'Sprinklers', piso: 'Piso polido epóxi'
+      };
+      const linhas = [
+        'Olá! Montei meu projeto no configurador do site da VM:',
+        '',
+        `▸ Tipo: ${tipoLabel[state.projeto]}`,
+        `▸ Dimensões: ${state.comp} × ${state.larg} m (${r.area} m²)`,
+        `▸ Pé-direito: ${state.pe} m`,
+        `▸ Cobertura: ${cobLabel}`,
+        `▸ Peso estimado: ${r.peso} t`,
+        `▸ Prazo estimado: ${r.prazo} dias`
+      ];
+      if (state.cep) linhas.push(`▸ Local: ${state.cep}`);
+      if (extrasAtivos.length) {
+        linhas.push('', 'Opcionais:');
+        extrasAtivos.forEach(k => linhas.push(`  • ${extrasLabel[k]}`));
+      }
+      linhas.push('', 'Gostaria de receber o orçamento técnico. Aguardo contato!');
+      return linhas.join('\n');
+    }
+
+    document.getElementById('btnEnviarProjeto')?.addEventListener('click', e => {
+      e.preventDefault();
+      const msg = buildSummary();
+      window.open('https://wa.me/5511972328541?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    });
+
+    document.getElementById('btnSave')?.addEventListener('click', e => {
+      e.preventDefault();
+      const url = new URL(window.location.href);
+      url.searchParams.set('comp', String(state.comp));
+      url.searchParams.set('larg', String(state.larg));
+      url.searchParams.set('pe', String(state.pe));
+      url.searchParams.set('tipo', state.projeto);
+      url.searchParams.set('cob', state.cob);
+      Object.entries(state.extras).forEach(([k,v]) => { if (v) url.searchParams.set(k, '1'); });
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url.toString()).then(() => {
+          const btn = e.target as HTMLElement;
+          btn.textContent = '✓ LINK COPIADO';
+          setTimeout(() => btn.textContent = '⎘ SALVAR LINK', 2000);
+        });
+      }
+    });
+
+    // ═══ Lazy-load Three.js quando clicar "Ver em 3D" ═══
+    const modal = document.getElementById('maqueteModal') as HTMLElement;
+    const modalClose = document.getElementById('maqueteClose');
+    let threeLoaded = false;
+
+    document.getElementById('btn3d')?.addEventListener('click', async () => {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      if (threeLoaded) return;
+
+      try {
+        // Carrega Three.js DINAMICAMENTE (só nesse momento)
+        const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js' as any);
+        const { OrbitControls } = await import('https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/controls/OrbitControls.js' as any);
+        threeLoaded = true;
+        initThreeScene(THREE, OrbitControls);
+      } catch (err) {
+        const loading = document.getElementById('maqueteLoading');
+        if (loading) loading.textContent = '⚠ Não foi possível carregar a visualização 3D. Tente no desktop.';
+      }
+    });
+
+    modalClose?.addEventListener('click', () => {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    });
+
+    function initThreeScene(THREE: any, OrbitControls: any) {
+      const canvas = document.getElementById('maqueteCanvas') as HTMLCanvasElement;
+      const loading = document.getElementById('maqueteLoading');
+      if (!canvas) return;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x1a1a1a);
+      const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      camera.position.set(60, 30, 60);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const controls = new OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+
+      // Luzes
+      scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+      const dl = new THREE.DirectionalLight(0xffffff, 0.9);
+      dl.position.set(30, 50, 30);
+      scene.add(dl);
+
+      // Galpão
+      const comp = state.comp, larg = state.larg, pe = state.pe;
+      const group = new THREE.Group();
+      // Piso
+      const piso = new THREE.Mesh(
+        new THREE.BoxGeometry(comp + 2, 0.3, larg + 2),
+        new THREE.MeshStandardMaterial({ color: 0x666666, roughness: 0.9 })
+      );
+      piso.position.y = -0.15;
+      group.add(piso);
+      // 4 paredes
+      const wallMat = new THREE.MeshStandardMaterial({ color: 0x4a4a4a, roughness: 0.7 });
+      const wF = new THREE.Mesh(new THREE.BoxGeometry(comp, pe, 0.15), wallMat);
+      wF.position.set(0, pe/2, larg/2); group.add(wF);
+      const wB = new THREE.Mesh(new THREE.BoxGeometry(comp, pe, 0.15), wallMat);
+      wB.position.set(0, pe/2, -larg/2); group.add(wB);
+      const wL = new THREE.Mesh(new THREE.BoxGeometry(0.15, pe, larg), wallMat);
+      wL.position.set(-comp/2, pe/2, 0); group.add(wL);
+      const wR = new THREE.Mesh(new THREE.BoxGeometry(0.15, pe, larg), wallMat);
+      wR.position.set(comp/2, pe/2, 0); group.add(wR);
+      // Telhado prismático
+      const roofH = larg * 0.15;
+      const roofShape = new THREE.Shape();
+      roofShape.moveTo(-larg/2, 0);
+      roofShape.lineTo(larg/2, 0);
+      roofShape.lineTo(0, roofH);
+      roofShape.lineTo(-larg/2, 0);
+      const roofGeo = new THREE.ExtrudeGeometry(roofShape, { depth: comp, bevelEnabled: false });
+      const roof = new THREE.Mesh(roofGeo, new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.5, metalness: 0.3 }));
+      roof.rotation.y = Math.PI / 2;
+      roof.position.set(-comp/2, pe, 0);
+      group.add(roof);
+      // Faixa amarela
+      const faixa = new THREE.Mesh(
+        new THREE.BoxGeometry(comp + 0.1, 0.6, 0.16),
+        new THREE.MeshStandardMaterial({ color: 0xFFD700, roughness: 0.4, metalness: 0.1 })
+      );
+      faixa.position.set(0, pe * 0.35, larg/2 + 0.02);
+      group.add(faixa);
+
+      scene.add(group);
+      if (loading) loading.style.display = 'none';
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      });
+    }
+
+    // Restaura do URL
+    (function loadFromURL() {
+      const p = new URL(window.location.href).searchParams;
+      if (p.get('comp')) state.comp = +p.get('comp')!;
+      if (p.get('larg')) state.larg = +p.get('larg')!;
+      if (p.get('pe')) state.pe = +p.get('pe')!;
+      if (p.get('tipo')) state.projeto = p.get('tipo')!;
+      if (p.get('cob')) state.cob = p.get('cob')!;
+      ['mezanino','doca','escrit','ponte','cabine','fotovolt','sprinkler','piso'].forEach(k => {
+        if (p.get(k) === '1') (state.extras as any)[k] = true;
+      });
+      if (compInput) compInput.value = String(state.comp);
+      if (largInput) largInput.value = String(state.larg);
+    })();
+
+    update();
+  })();
+</script>
+
+<style>
+.cfg-section {
+  padding: 80px 0 70px;
+  background: #0a0a0a;
+  border-top: 1px solid var(--grid);
+}
+.cfg-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  padding: 0 20px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.cfg-head .tag {
+  font-size: 0.72rem;
+  color: var(--yellow);
+  letter-spacing: 0.24em;
+  margin-bottom: 14px;
+}
+.cfg-head h2 {
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.cfg-head p {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.7);
+}
+
+.cfg-shortcut {
+  max-width: 1400px; margin: 0 auto 28px;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, rgba(255,215,0,0.06), rgba(255,215,0,0.02));
+  border: 1px solid rgba(255,215,0,0.25);
+  border-left: 4px solid var(--yellow);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 14px;
+}
+.cs-label { font-size: 0.78rem; color: rgba(255,255,255,0.75); }
+.cs-btn {
+  padding: 12px 20px;
+  background: transparent; color: var(--yellow);
+  border: 2px solid var(--yellow);
+  font-size: 0.72rem; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+.cs-btn:hover { background: var(--yellow); color: var(--bg); }
+
+.cfg-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  border-top: 2px solid var(--yellow);
+  border-bottom: 2px solid var(--yellow);
+}
+
+.cfg-controls {
+  background: #121212;
+  border-right: 1px solid var(--grid);
+  padding: 36px 28px;
+}
+.cfg-ctitle {
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+.cfg-csub {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 26px;
+}
+
+.ctrl-group { margin-bottom: 22px; }
+.ctrl-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 10px;
+}
+.ctrl-label .val { color: var(--yellow); font-size: 1.2rem; letter-spacing: 0.02em; }
+
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.seg.seg-small { grid-template-columns: repeat(5, 1fr); }
+.seg.seg-two { grid-template-columns: 1fr 1fr; }
+.seg button {
+  background: #1a1a1a;
+  color: rgba(255,255,255,0.6);
+  border: 1px solid #2a2a2a;
+  padding: 11px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+}
+.seg button:hover { color: var(--fg); }
+.seg button.on {
+  background: var(--yellow);
+  color: var(--bg);
+  border-color: var(--yellow);
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 44px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #2a2a2a;
+  border-radius: 2px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  background: var(--yellow);
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  margin-top: -11px;
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-track { height: 4px; background: #2a2a2a; }
+input[type="range"]::-moz-range-thumb {
+  width: 26px; height: 26px;
+  background: var(--yellow);
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+}
+
+.toggles { display: flex; flex-direction: column; gap: 3px; }
+.toggle {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  cursor: pointer;
+  min-height: 48px;
+  transition: border-color 0.2s;
+}
+.toggle:hover { border-color: rgba(255,215,0,0.4); }
+.toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.toggle .check {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,215,0,0.4);
+  display: inline-block;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+.toggle input:checked ~ .check {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+.toggle-name {
+  flex: 1;
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.85);
+}
+.toggle-price {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--yellow);
+  opacity: 0.8;
+}
+
+#cep {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #2a2a2a;
+  padding: 14px;
+  color: var(--fg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  min-height: 48px;
+}
+#cep:focus { border-color: var(--yellow); outline: none; }
+
+/* Preview */
+.cfg-viz-wrap {
+  display: flex; flex-direction: column;
+}
+.cfg-viz {
+  position: relative;
+  background: #0a0a0a;
+  min-height: 420px;
+  padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.cfg-viz::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.cfg-viz-meta {
+  position: absolute;
+  top: 18px; left: 18px; right: 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  z-index: 2;
+  padding: 8px 14px;
+  background: rgba(10,10,10,0.7);
+  border: 1px solid rgba(255,215,0,0.2);
+  backdrop-filter: blur(4px);
+}
+.galpao-svg {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(255,215,0,0.1));
+}
+.cfg-viz-tips {
+  position: absolute;
+  bottom: 18px; left: 18px; right: 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  padding: 8px 14px;
+  background: rgba(10,10,10,0.7);
+  border: 1px solid rgba(255,215,0,0.2);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+.btn3d {
+  background: var(--yellow);
+  color: var(--bg);
+  border: none;
+  padding: 8px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.btn3d:hover { transform: translateY(-1px); }
+
+.cfg-output {
+  background: var(--bg);
+  border-top: 2px solid var(--yellow);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.out-block .k {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.out-block .v {
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--yellow);
+  margin-bottom: 4px;
+}
+.out-block .sub {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.55);
+}
+.cta-row {
+  grid-column: 1 / -1;
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+.btn-cfg {
+  flex: 1 1 auto;
+  min-height: 52px;
+  padding: 16px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.btn-cfg.fill { background: var(--yellow); color: var(--bg); border: 2px solid var(--yellow); }
+.btn-cfg.fill:hover { background: transparent; color: var(--yellow); }
+.btn-cfg.line { background: transparent; color: var(--yellow); border: 2px solid var(--yellow); }
+.btn-cfg.line:hover { background: var(--yellow); color: var(--bg); }
+.cfg-disclaimer {
+  grid-column: 1 / -1;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+  padding: 14px 16px;
+  background: #141414;
+  border-left: 3px solid var(--yellow);
+  margin-top: 10px;
+}
+
+/* Modal 3D */
+.maquete-modal {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.98);
+  display: none;
+  backdrop-filter: blur(10px);
+}
+.maquete-modal.open { display: grid; grid-template-rows: auto 1fr; }
+.maquete-topbar {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--grid);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.maquete-topbar .close {
+  background: var(--yellow); color: var(--bg);
+  padding: 9px 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+.maquete-canvas-wrap {
+  position: relative;
+}
+#maqueteCanvas {
+  width: 100%; height: 100%;
+  cursor: grab;
+}
+#maqueteCanvas:active { cursor: grabbing; }
+.maquete-loading {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--yellow);
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 1000px) {
+  .cfg-main { grid-template-columns: 1fr; }
+  .cfg-head { grid-template-columns: 1fr; gap: 20px; }
+}
+@media (max-width: 760px) {
+  .cfg-section { padding: 50px 0; }
+  .cfg-head { padding: 0 18px 30px; }
+  .cfg-shortcut { flex-direction: column; align-items: stretch; text-align: center; margin: 0 16px 24px; padding: 16px 18px; }
+  .cs-btn { font-size: 0.64rem; padding: 14px 12px; letter-spacing: 0.08em; line-height: 1.3; }
+  .cfg-controls { padding: 26px 18px; }
+  .seg.seg-small { grid-template-columns: repeat(5, 1fr); }
+  .cfg-output { grid-template-columns: 1fr 1fr; padding: 20px; gap: 16px; }
+  .out-block .v { font-size: 1.6rem; }
+  .cta-row { flex-direction: column; grid-column: 1 / -1; }
+  .btn-cfg { width: 100%; }
+}
+</style>
