@@ -149,7 +149,7 @@ const phases = [
 <style>
 .build-wrap {
   position: relative;
-  height: 400vh; /* 4 viewports de altura pra 7 fases terem tempo */
+  height: 220vh; /* 2.2 viewports — 7 fases em scroll suave, sem vazio */
   background: #000;
   /* Não usar contain: paint aqui — quebra sticky */
 }
@@ -252,7 +252,7 @@ const phases = [
 @keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
 
 @media (max-width: 760px) {
-  .build-wrap { height: 380vh; }
+  .build-wrap { height: 200vh; } /* mobile: ainda mais compacto */
   .hud-top { top: 16px; left: 16px; right: 16px; font-size: 0.58rem; gap: 8px; flex-wrap: wrap; }
   .plaque { left: 14px; right: 14px; bottom: 14px; max-width: none; padding: 16px 18px; }
   .sp-title { font-size: 1.6rem; }
