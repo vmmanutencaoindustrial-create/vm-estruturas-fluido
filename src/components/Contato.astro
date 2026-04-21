@@ -1,0 +1,151 @@
+---
+// CTA final — conversão
+---
+<section id="contato" class="cta-final">
+  <div class="container">
+    <div class="cta-label mono">[ OBRA CONCLUÍDA ] ■ PRONTA PARA OPERAR</div>
+    <h2 class="bebas">Seu galpão<br>em 120 dias.</h2>
+
+    <div class="cta-stats">
+      <div><div class="n bebas">50-5.000 m²</div><div class="l mono">Qualquer porte</div></div>
+      <div><div class="n bebas">120 dias</div><div class="l mono">Prazo máximo</div></div>
+      <div><div class="n bebas">5 anos</div><div class="l mono">Garantia</div></div>
+      <div><div class="n bebas">ART</div><div class="l mono">CREA-SP</div></div>
+    </div>
+
+    <div class="cta-btns">
+      <a class="btn-wa" href="https://wa.me/5511972328541?text=Ol%C3%A1!%20Cheguei%20pelo%20site%20e%20quero%20or%C3%A7amento%20de%20galp%C3%A3o%20met%C3%A1lico.%20Pode%20me%20ajudar%3F" target="_blank" rel="noopener">
+        ► WHATSAPP · ORÇAMENTO EM 48H
+      </a>
+      <div class="cta-secondary mono">
+        <a href="tel:+5511972328541">☎ Ligar agora</a>
+        <span class="sep">·</span>
+        <a href="mailto:vmmanutencaoindustrial@gmail.com?subject=Or%C3%A7amento%20de%20galp%C3%A3o">✉ E-mail direto</a>
+      </div>
+    </div>
+
+    <div class="contact-bar">
+      <div class="contact-item">
+        <div class="contact-lbl mono">WhatsApp 24/7</div>
+        <a class="contact-val bebas" href="https://wa.me/5511972328541" target="_blank" rel="noopener">(11) 9 7232-8541</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl mono">E-mail comercial</div>
+        <a class="contact-val email mono" href="mailto:vmmanutencaoindustrial@gmail.com">vmmanutencaoindustrial<br>@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl mono">Atendimento</div>
+        <div class="contact-val bebas">Estado de São Paulo</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl mono">Resposta</div>
+        <div class="contact-val bebas">48 horas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.cta-final {
+  padding: 100px 0;
+  background: var(--yellow);
+  color: var(--bg);
+  text-align: center;
+  border-top: 1px solid var(--grid);
+}
+.cta-label {
+  display: inline-block;
+  padding: 8px 14px;
+  background: var(--bg);
+  color: var(--yellow);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 28px;
+}
+.cta-final h2 {
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.cta-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+.cta-stats .n {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.cta-stats .l {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.cta-btns {
+  margin-bottom: 44px;
+}
+.btn-wa {
+  display: inline-block;
+  padding: 22px 40px;
+  background: var(--bg);
+  color: var(--yellow) !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.2s;
+}
+.btn-wa:hover { transform: translateY(-2px); }
+.cta-secondary {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+.cta-secondary a { color: var(--bg); text-decoration: underline; }
+.cta-secondary .sep { opacity: 0.4; }
+
+.contact-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 28px;
+  background: var(--bg);
+  color: var(--fg);
+  text-align: left;
+}
+.contact-lbl {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: rgba(250,250,250,0.5);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.contact-val {
+  font-size: 1.15rem;
+  color: var(--fg);
+  line-height: 1.2;
+}
+.contact-val.email { font-size: 0.76rem; word-break: break-word; }
+
+@media (max-width: 760px) {
+  .cta-final { padding: 60px 18px; }
+  .cta-stats { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .btn-wa { padding: 18px 20px; font-size: 0.82rem; width: 100%; }
+  .cta-secondary { flex-direction: column; gap: 10px; }
+  .cta-secondary .sep { display: none; }
+  .contact-bar { grid-template-columns: 1fr; padding: 20px; }
+  .contact-val.email { font-size: 0.74rem; }
+}
+</style>

@@ -1,0 +1,131 @@
+---
+const base = import.meta.env.BASE_URL;
+const obras = [
+  { src: 'vm-munck-montagem.jpg', tag: 'EM MONTAGEM', title: 'Munck VM · Cobertura arqueada', desc: 'Equipe própria VM com caminhão Munck e plataforma elevatória. Içamento de estrutura metálica em obra ativa.' },
+  { src: 'vm-interior-polido.jpg', tag: 'ENTREGUE', title: 'Piso polido · Vão livre', desc: 'Piso epóxi nível A, pé-direito elevado, clarabóias translúcidas e estrutura pintada.' },
+  { src: 'vm-estrutura-noturna.jpg', tag: 'EM OPERAÇÃO', title: 'Iluminação LED industrial', desc: 'Operação 24/7 com iluminação LED industrial + cobertura metálica. Projeto chave na mão.' },
+  { src: 'vm-tesouras.jpg', tag: 'EM MONTAGEM', title: 'Treliça · Grande vão livre', desc: 'Tesouras metálicas Pratt soldadas MIG/MAG, içadas e montadas em campo.' },
+  { src: 'vm-ponte-rolante.jpg', tag: 'ENTREGUE', title: 'Ponte rolante · Carga pesada', desc: 'Dupla ponte rolante Vastec instalada sobre trilhos em estrutura metálica com vão livre.' },
+  { src: 'vm-supermercado-bh.webp', tag: 'ENTREGUE', title: 'Supermercados BH · Loja completa', desc: 'Estrutura comercial + fachada amarela + estacionamento coberto com tensionados. Chave na mão.' }
+];
+---
+<section id="cases" class="obras-section">
+  <header class="obras-head container">
+    <div>
+      <div class="obras-tag mono">[03] GALPÕES QUE A VM ERGUEU</div>
+      <h2 class="bebas">Obra real.<br>Entregue em pé.</h2>
+    </div>
+    <p class="mono">Fotos reais de galpões fabricados e montados pela nossa equipe. Nada de render, nada de foto genérica — estes são projetos em operação hoje.</p>
+  </header>
+
+  <div class="obras-grid container">
+    {obras.map((obra, i) => (
+      <figure class={`obra-card ${i === 0 ? 'obra-big' : ''}`}>
+        <img src={`${base}/assets/vm-obras/${obra.src}`} alt={obra.title} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+        <figcaption>
+          <span class="obra-tag mono">■ {obra.tag}</span>
+          <h3 class="bebas">{obra.title}</h3>
+          <p class="mono">{obra.desc}</p>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+.obras-section {
+  padding: 100px 0 80px;
+  background: #0a0a0a;
+  border-top: 1px solid var(--grid);
+}
+.obras-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 50px;
+}
+.obras-tag {
+  font-size: 0.72rem;
+  color: var(--yellow);
+  letter-spacing: 0.24em;
+  margin-bottom: 14px;
+}
+.obras-head h2 {
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.obras-head p {
+  font-size: 0.94rem;
+  color: rgba(250,250,250,0.65);
+  line-height: 1.6;
+}
+
+.obras-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 320px;
+  gap: 2px;
+}
+.obra-card {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  transform: translateZ(0);
+}
+.obra-card.obra-big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.obra-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.obra-card:hover img { transform: scale(1.05); }
+.obra-card figcaption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 22px;
+  background: linear-gradient(180deg, transparent, rgba(10,10,10,0.95) 50%);
+  transform: translateY(calc(100% - 80px));
+  transition: transform 0.4s ease;
+}
+.obra-card:hover figcaption { transform: translateY(0); }
+.obra-tag {
+  display: inline-block;
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+  color: var(--yellow);
+  margin-bottom: 10px;
+}
+.obra-card h3 {
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.obra-card p {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(250,250,250,0.75);
+}
+
+@media (max-width: 900px) {
+  .obras-section { padding: 60px 0; }
+  .obras-head {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 18px;
+  }
+  .obras-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+    gap: 14px;
+    padding: 0 18px;
+  }
+  .obra-card.obra-big { grid-column: span 1; grid-row: span 1; }
+  .obra-card figcaption { transform: translateY(0); }
+}
+</style>

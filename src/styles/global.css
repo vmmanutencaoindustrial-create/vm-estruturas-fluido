@@ -1,0 +1,83 @@
+/* ═══════════════════════════════════════════════════════════════
+   VM Estruturas Metálicas — global.css
+   Estilo brutalist-industrial (amarelo + preto + branco)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg: #0A0A0A;
+  --fg: #FAFAFA;
+  --yellow: #FFD700;
+  --yellow-dim: #c9a800;
+  --safety: #FF6B00;
+  --concrete: #8C8C8C;
+  --steel: #2a2a2a;
+  --grid: #1A1A1A;
+  --dim: rgba(250, 250, 250, 0.55);
+  --phone-blue: #2563EB;
+  --phone-blue-hover: #1D4ED8;
+  --g-gap: 12px;
+  --g-margin: 20px;
+  --vh: 1vh;
+  --vw: 1vw;
+  --progress: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-text-size-adjust: 100%; }
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+  line-height: 1.55;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+.bebas { font-family: 'Bebas Neue', Impact, sans-serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.yellow, .y { color: var(--yellow); }
+
+/* ═══ Performance: contain paint em sections estáticas ═══ */
+section {
+  contain: layout paint;
+}
+
+/* Safety tape decoration */
+.safety-tape {
+  height: 12px;
+  background: repeating-linear-gradient(-45deg, var(--yellow) 0 20px, #000 20px 40px);
+  opacity: 0.85;
+}
+
+/* Fonts carregam display: swap pra não bloquear */
+.font-loaded body { font-family: 'JetBrains Mono', monospace; }
+
+/* Utility */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--g-margin);
+}

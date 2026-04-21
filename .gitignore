@@ -1,0 +1,16 @@
+# Local Netlify folder
+.netlify
+
+# Node / Astro
+node_modules/
+dist/
+.astro/
+.env
+.env.production
+.DS_Store
+.vscode/
+*.log
+package-lock.json
+
+# Legacy archive (versões anteriores preservadas mas não versionadas)
+legacy/

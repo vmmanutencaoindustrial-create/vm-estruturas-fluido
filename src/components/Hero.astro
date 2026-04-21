@@ -1,0 +1,214 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<section id="hero" class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-top mono">
+      <span><span class="y">►</span> Atendemos SP inteiro</span>
+      <span class="sep">·</span>
+      <span>ART CREA-SP · NBR 8800</span>
+    </div>
+
+    <h1 class="bebas">
+      <span>Erguemos</span><br />
+      <span class="y">Galpões.</span><br />
+      <span class="outline">Não vendemos m².</span>
+    </h1>
+
+    <p class="hero-sub mono">
+      <span class="y">►</span>
+      Projeto, fabricação e montagem de estruturas metálicas com <b>equipe técnica qualificada e parceiros homologados</b>. <b class="y">Do mezanino de 50m² ao galpão de 5.000m²</b> — pequenas, médias e grandes obras. ART registrada, entrega pronta pra operar.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#contato" class="btn btn-primary mono">► FALAR COM ENGENHEIRO</a>
+      <a href="#cases" class="btn btn-outline mono">VER OBRAS ENTREGUES</a>
+    </div>
+
+    <!-- Faixas de porte -->
+    <div class="hero-ranges mono">
+      <div class="hr-item">
+        <span class="hr-size bebas">50 – 300 m²</span>
+        <span class="hr-label">Pequenas · mezanino, cobertura, marquise</span>
+      </div>
+      <div class="hr-sep"></div>
+      <div class="hr-item">
+        <span class="hr-size bebas">300 – 1.500 m²</span>
+        <span class="hr-label">Médias · galpão comercial, oficina</span>
+      </div>
+      <div class="hr-sep"></div>
+      <div class="hr-item">
+        <span class="hr-size bebas">1.500 – 5.000 m²</span>
+        <span class="hr-label">Grandes · fábrica, logística</span>
+      </div>
+    </div>
+
+    <!-- Prova rápida -->
+    <div class="hero-proof mono">
+      <div class="hp-item">
+        <span class="hp-num bebas">120</span>
+        <span class="hp-lbl">dias até entrega</span>
+      </div>
+      <div class="hp-sep"></div>
+      <div class="hp-item">
+        <span class="hp-num bebas">5 anos</span>
+        <span class="hp-lbl">garantia estrutura</span>
+      </div>
+      <div class="hp-sep"></div>
+      <div class="hp-item">
+        <span class="hp-num bebas">48h</span>
+        <span class="hp-lbl">resposta com proposta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style define:vars={{ heroBg: `url("${base}/assets/vm-obras/vm-fachada.jpg")` }}>
+.hero {
+  position: relative;
+  min-height: calc(var(--vh, 1vh) * 95);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 60px 24px 44px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.55) 50%, rgba(10,10,10,0.95) 100%),
+    var(--heroBg) center/cover no-repeat;
+  filter: contrast(1.08) saturate(0.92) brightness(0.92);
+  z-index: -1;
+}
+.hero-content { position: relative; z-index: 1; max-width: 1200px; }
+.hero-top {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 32px;
+}
+.hero-top .sep { opacity: 0.4; }
+
+.hero h1 {
+  font-size: clamp(2.6rem, 10vw, 8rem);
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  word-break: normal;
+  overflow-wrap: break-word;
+  margin-bottom: 28px;
+}
+.hero h1 .outline {
+  -webkit-text-stroke: 2px var(--yellow);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(0.88rem, 1.6vw, 1rem);
+  line-height: 1.6;
+  max-width: 620px;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 28px;
+}
+.hero-sub b { color: var(--fg); font-weight: 700; }
+.hero-sub b.y { color: var(--yellow); }
+
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 16px 24px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 2px solid var(--yellow);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary { background: var(--yellow); color: var(--bg); }
+.btn-primary:hover { background: transparent; color: var(--yellow); }
+.btn-outline { background: transparent; color: var(--fg); border-color: var(--fg); }
+.btn-outline:hover { background: var(--fg); color: var(--bg); }
+
+/* Faixas 50/500/5000 */
+.hero-ranges {
+  display: flex;
+  padding: 16px 22px;
+  background: rgba(10,10,10,0.6);
+  border-top: 2px solid var(--yellow);
+  border-bottom: 1px solid rgba(255,215,0,0.25);
+  max-width: 900px;
+  margin-bottom: 24px;
+}
+.hero-ranges .hr-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 18px;
+}
+.hero-ranges .hr-size {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--yellow);
+  letter-spacing: 0.02em;
+}
+.hero-ranges .hr-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+.hero-ranges .hr-sep {
+  width: 1px;
+  background: rgba(255,215,0,0.3);
+}
+
+/* Prova rápida */
+.hero-proof {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px 22px;
+  background: rgba(10,10,10,0.55);
+  border-left: 3px solid var(--yellow);
+  max-width: max-content;
+}
+.hero-proof .hp-item { display: flex; flex-direction: column; gap: 2px; }
+.hero-proof .hp-num { font-size: 1.4rem; color: var(--yellow); line-height: 1; }
+.hero-proof .hp-lbl {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(250,250,250,0.7);
+  text-transform: uppercase;
+}
+.hero-proof .hp-sep { width: 1px; height: 28px; background: rgba(255,215,0,0.25); }
+
+@media (max-width: 760px) {
+  .hero { padding: 44px 18px 32px; min-height: calc(var(--vh, 1vh) * 85); }
+  .hero h1 { font-size: clamp(2rem, 9.5vw, 3.6rem); }
+  .hero-top { font-size: 0.64rem; gap: 6px; }
+  .hero-sub { font-size: 0.88rem; }
+  .hero-cta { flex-direction: column; }
+  .btn { width: 100%; padding: 16px; }
+  .hero-ranges { flex-direction: column; gap: 14px; padding: 16px 18px; }
+  .hero-ranges .hr-sep { display: none; }
+  .hero-ranges .hr-size { font-size: 1.3rem; }
+  .hero-proof { flex-wrap: wrap; gap: 12px; padding: 14px 16px; }
+  .hero-proof .hp-num { font-size: 1.1rem; }
+  .hero-proof .hp-lbl { font-size: 0.58rem; }
+}
+</style>

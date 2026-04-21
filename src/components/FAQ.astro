@@ -1,0 +1,148 @@
+---
+const faqs = [
+  { q: 'Em quanto tempo vocês entregam?', a: 'Galpões padrão em 120 dias corridos — da assinatura à vistoria final. Mezaninos e coberturas menores em 30-60 dias. Prazo consta no contrato com multa por atraso.' },
+  { q: 'Como é a execução da obra?', a: 'Trabalhamos com equipe técnica qualificada e parceiros homologados conforme a escala. Todos seguem nossos padrões — NR-18, NR-35, PCMSO em dia — e a responsabilidade técnica (ART) é sempre da VM. Você assina contrato conosco, fiscalização é nossa, garantia é nossa.' },
+  { q: 'Atendem fora de São Paulo?', a: 'Atendemos todo o estado de São Paulo — capital, Grande SP, ABC, Vale do Paraíba, Sorocaba, Campinas, Ribeirão, litoral e interior. Fora do estado, avaliamos por projeto.' },
+  { q: 'Quem é o engenheiro responsável?', a: 'Engenheiro civil/mecânico com CREA-SP ativo, ART registrada para cada obra. Você recebe nome, número de registro e cópia da ART antes do início da fabricação.' },
+  { q: 'Forma de pagamento?', a: 'Padrão: 30% na assinatura · 40% na fabricação · 25% na montagem · 5% na entrega. Boleto, PIX ou transferência. Clientes corporativos com cadastro aprovado têm parcelamento estendido em até 6× via fatura.' },
+  { q: 'E se eu precisar ampliar depois?', a: 'O projeto executivo já é entregue prevendo módulos de expansão caso indicado no briefing. Pilares laterais ficam preparados para receber novos vãos sem demolição.' }
+];
+---
+<section id="faq" class="faq-section">
+  <div class="faq-head container">
+    <div class="tag mono">[06] PERGUNTAS FREQUENTES</div>
+    <h2 class="bebas">Dúvidas que<br><span class="y">ouvimos sempre.</span></h2>
+  </div>
+
+  <div class="faq-list container">
+    {faqs.map(faq => (
+      <details class="faq-item">
+        <summary>
+          <span class="faq-q mono">{faq.q}</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </summary>
+        <div class="faq-a mono">
+          <p>{faq.a}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <div class="faq-cta container">
+    <p class="mono">Sua dúvida não está aqui?</p>
+    <a class="btn-wa mono" href="https://wa.me/5511972328541?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20galp%C3%A3o%20met%C3%A1lico." target="_blank" rel="noopener">
+      ► PERGUNTAR NO WHATSAPP
+    </a>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+})} />
+
+<style>
+.faq-section {
+  padding: 100px 0;
+  border-top: 1px solid var(--grid);
+}
+.faq-head { text-align: center; margin-bottom: 50px; }
+.tag {
+  font-size: 0.72rem;
+  color: var(--yellow);
+  letter-spacing: 0.24em;
+  margin-bottom: 14px;
+}
+.faq-head h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.faq-list {
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.faq-item {
+  background: #141414;
+  border-left: 3px solid rgba(255,215,0,0.3);
+  transition: border-color 0.3s;
+}
+.faq-item[open] { border-left-color: var(--yellow); }
+.faq-item summary {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  gap: 14px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-q {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+.faq-ic {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--yellow);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item[open] .faq-ic { transform: rotate(45deg); }
+.faq-a {
+  padding: 0 24px 20px 24px;
+}
+.faq-a p {
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: rgba(250,250,250,0.75);
+}
+
+.faq-cta {
+  max-width: 860px;
+  margin-top: 40px;
+  padding: 28px 24px;
+  background: rgba(255,215,0,0.04);
+  border: 1px solid rgba(255,215,0,0.25);
+  text-align: center;
+}
+.faq-cta p {
+  font-size: 0.86rem;
+  color: rgba(250,250,250,0.7);
+  margin-bottom: 14px;
+}
+.btn-wa {
+  display: inline-block;
+  padding: 14px 24px;
+  background: var(--yellow);
+  color: var(--bg) !important;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 2px solid var(--yellow);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-wa:hover { background: transparent; color: var(--yellow) !important; }
+
+@media (max-width: 760px) {
+  .faq-section { padding: 60px 0; }
+  .faq-head { padding: 0 18px; }
+  .faq-list { padding: 0 18px; }
+  .faq-item summary { padding: 16px 18px; }
+  .faq-q { font-size: 0.9rem; }
+  .faq-a { padding: 0 18px 16px; }
+  .faq-a p { font-size: 0.82rem; }
+  .faq-cta { margin: 40px 18px 0; }
+}
+</style>

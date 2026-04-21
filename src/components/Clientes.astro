@@ -1,0 +1,202 @@
+---
+const base = import.meta.env.BASE_URL;
+const clientes = [
+  { brand: 'cocacola',  real: true,  src: 'coca-cola.svg',  alt: 'Coca-Cola' },
+  { brand: 'votorantim',real: true,  src: 'votorantim.svg', alt: 'Votorantim' },
+  { brand: 'ambev',     real: true,  src: 'ambev.svg',      alt: 'Ambev' },
+  { brand: 'sap',       real: true,  src: 'sap.svg',        alt: 'SAP Ariba', tag: 'HOMOLOGADOS' },
+  { brand: 'brf',       real: true,  src: 'brf.svg',        alt: 'BRF' },
+  { brand: 'natura',    real: true,  src: 'natura.svg',     alt: 'Natura' },
+  { brand: 'combio',    real: false, text: 'ComBio' },
+  { brand: 'mundial',   real: false, text: 'Mundial SA' },
+  { brand: 'mcpack',    real: false, text: 'McPack' },
+  { brand: 'ecomix',    real: false, text: 'ECOMIX' },
+  { brand: 'formil',    real: false, text: 'Formil Química' },
+  { brand: 'embrapol',  real: false, text: 'Embrapol' },
+  { brand: 'polimix',   real: false, text: 'Polimix' }
+];
+---
+<section class="clients-section" id="clientes">
+  <header class="clients-head container">
+    <div>
+      <div class="clients-tag mono">[04] MARCAS QUE CONFIAM</div>
+      <h2 class="bebas">Indústrias que<br>nos contratam.</h2>
+    </div>
+    <p class="mono">Estamos homologados em plataformas como <b>Ariba</b> e atendemos diretamente empresas do porte de Coca-Cola, Votorantim, ComBio e Ambev. Você assina contrato com a VM — a responsabilidade técnica é sempre nossa.</p>
+  </header>
+
+  <div class="clients-wall container">
+    {clientes.map(c => (
+      <div class="client-logo" data-brand={c.brand} title={c.alt || c.text}>
+        {c.real ? (
+          <img class="cl-real" src={`${base}/assets/client-logos/${c.src}`} alt={c.alt} loading="lazy" decoding="async" />
+        ) : (
+          <span class="cl-text bebas">{c.text}</span>
+        )}
+        {c.tag && <span class="cl-tag mono">{c.tag}</span>}
+      </div>
+    ))}
+    <div class="client-logo client-closer">
+      <div class="closer-num bebas">+40</div>
+      <div class="closer-lbl mono">indústrias<br>atendidas</div>
+    </div>
+  </div>
+
+  <div class="stats-row container">
+    <div class="stat">
+      <span class="stat-n bebas">47+</span>
+      <span class="stat-l mono">Contratos ativos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n bebas">12 anos</span>
+      <span class="stat-l mono">De operação</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n bebas">ISO 9001</span>
+      <span class="stat-l mono">Em processo</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n bebas">ART</span>
+      <span class="stat-l mono">Responsabilidade VM</span>
+    </div>
+  </div>
+</section>
+
+<style>
+.clients-section {
+  padding: 90px 0;
+  border-top: 1px solid var(--grid);
+}
+.clients-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 50px;
+}
+.clients-tag {
+  font-size: 0.72rem;
+  color: var(--yellow);
+  letter-spacing: 0.24em;
+  margin-bottom: 14px;
+}
+.clients-head h2 {
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.clients-head p {
+  font-size: 0.94rem;
+  color: rgba(250,250,250,0.65);
+  line-height: 1.6;
+}
+.clients-head p b { color: var(--yellow); }
+
+.clients-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+  border: 1px solid var(--grid);
+  background: var(--grid);
+  margin-bottom: 40px;
+}
+.client-logo {
+  background: #0d0d0d;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  transition: background 0.25s;
+  contain: layout paint;
+}
+.client-logo:hover { background: #151515; }
+.cl-real {
+  width: 86%;
+  max-width: 170px;
+  max-height: 64px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.78;
+  transition: filter 0.3s, opacity 0.3s;
+}
+.client-logo:hover .cl-real { filter: none; opacity: 1; }
+.cl-text {
+  font-size: 1.6rem;
+  color: rgba(235,235,235,0.82);
+  letter-spacing: 0.03em;
+  text-align: center;
+  transition: color 0.25s;
+}
+.client-logo:hover .cl-text { color: var(--yellow); }
+.cl-tag {
+  font-size: 0.54rem;
+  letter-spacing: 0.22em;
+  color: var(--yellow);
+  padding: 2px 6px;
+  border: 1px solid rgba(255,215,0,0.3);
+}
+
+.client-closer {
+  background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.02));
+  border-left: 2px solid var(--yellow);
+}
+.closer-num {
+  font-size: 2.2rem;
+  color: var(--yellow);
+  line-height: 1;
+}
+.closer-lbl {
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  color: rgba(250,250,250,0.75);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--grid);
+  border: 1px solid var(--grid);
+}
+.stat {
+  background: #0d0d0d;
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stat-n {
+  font-size: 2rem;
+  color: var(--yellow);
+  line-height: 1;
+}
+.stat-l {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.55);
+}
+
+@media (max-width: 900px) {
+  .clients-section { padding: 60px 0; }
+  .clients-head {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 18px;
+  }
+  .clients-wall {
+    grid-template-columns: 1fr 1fr;
+    margin: 0 18px 30px;
+  }
+  .client-logo { height: 110px; }
+  .cl-text { font-size: 1.2rem; }
+  .stats-row { grid-template-columns: 1fr 1fr; margin: 0 18px; }
+  .stat-n { font-size: 1.5rem; }
+}
+</style>

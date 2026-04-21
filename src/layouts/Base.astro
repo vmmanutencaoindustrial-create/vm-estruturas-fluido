@@ -1,0 +1,125 @@
+---
+// Base Layout — pré-renderizado no build (SSG)
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+const {
+  title = 'VM Estruturas Metálicas — Erguemos galpões. Não vendemos m².',
+  description = 'VM Estruturas Metálicas — Fabricação, projeto e montagem de galpões industriais em Barueri/SP. Do mezanino de 50m² ao galpão de 5.000m². Entrega em 120 dias.',
+  image = 'https://vmmanutencaoindustrial-create.github.io/vm-estruturas-fluido/assets/vm-obras/vm-fachada.jpg'
+} = Astro.props;
+
+const canonical = 'https://vmmanutencaoindustrial-create.github.io/vm-estruturas-fluido/';
+import '../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content="galpão industrial, estrutura metálica, fabricação galpão, montagem galpão Barueri, NBR 8800, mezanino steel deck, cobertura metálica, ponte rolante" />
+  <meta name="author" content="VM Estruturas Metálicas" />
+  <meta name="theme-color" content="#FFD700" />
+  <meta name="geo.region" content="BR-SP" />
+  <meta name="geo.placename" content="Barueri" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={image} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="VM Estruturas Metálicas" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}/assets/vm-logo.png`} />
+  <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}/assets/vm-logo.png`} />
+
+  <!-- Fonts — preconnect + swap pra não bloquear render -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700;800&display=swap" as="style" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700;800&display=swap" />
+  </noscript>
+
+  <!-- Preload hero image (LCP) -->
+  <link rel="preload" as="image" href={`${import.meta.env.BASE_URL}/assets/vm-obras/vm-fachada.jpg`} fetchpriority="high" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": canonical + "#business",
+    "name": "VM Estruturas Metálicas",
+    "alternateName": "VM Manutenção Industrial",
+    "description": description,
+    "url": canonical,
+    "telephone": "+55-11-97232-8541",
+    "email": "vmmanutencaoindustrial@gmail.com",
+    "image": image,
+    "priceRange": "$$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Barueri",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": -23.5106, "longitude": -46.8761 },
+    "areaServed": [{ "@type": "State", "name": "São Paulo" }],
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "07:00",
+      "closes": "18:00"
+    }],
+    "sameAs": ["https://www.instagram.com/vmmanutencaoindustrial"]
+  })} />
+
+  <!-- Scroll progress var (atualiza --progress no <html>) -->
+  <script is:inline>
+    (function () {
+      let ticking = false;
+      function update() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const p = max > 0 ? window.scrollY / max : 0;
+        document.documentElement.style.setProperty('--progress', p.toFixed(4));
+        document.documentElement.style.setProperty('--scroll-y', window.scrollY + 'px');
+        ticking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+
+      // vh/vw real (resolve bug address-bar iOS)
+      function updateVh() {
+        document.documentElement.style.setProperty('--vh', (window.innerHeight / 100) + 'px');
+        document.documentElement.style.setProperty('--vw', (window.innerWidth / 100) + 'px');
+      }
+      updateVh();
+      window.addEventListener('resize', updateVh, { passive: true });
+      window.addEventListener('orientationchange', updateVh, { passive: true });
+    })();
+  </script>
+</head>
+<body>
+  <slot />
+</body>
+</html>
