@@ -15,7 +15,11 @@ export default defineConfig({
   vite: {
     build: {
       cssMinify: 'esbuild',
-      target: 'es2020'
+      target: 'es2020',
+      rollupOptions: {
+        // three e addons são resolvidos via importmap no runtime (CDN jsdelivr)
+        external: ['three', /^three\/addons\//]
+      }
     }
   }
 });
