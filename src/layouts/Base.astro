@@ -51,6 +51,16 @@ import '../styles/global.css';
   <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}/assets/vm-logo.png`} />
   <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}/assets/vm-logo.png`} />
 
+  <!-- Importmap pra 3D lazy (OrbitControls depende de 'three' como bare import) -->
+  <script type="importmap" is:inline>
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+    }
+  }
+  </script>
+
   <!-- Fonts — preconnect + swap pra não bloquear render -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
